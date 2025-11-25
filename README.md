@@ -1,7 +1,10 @@
 # Machine Learning Project - Natural Language Classifier
 Using Emotion Dataset
 
-# Objectives
+# Set Up
+1. Install dependencies in requirements.txt
+
+# Tasks
 - Choose a real-world dataset from a curated list
 - Ingest and store that data reliably, using a local script which will form the basis for an AWS Lambda with RDS
 - Train a model on that data to understand or generate insights
