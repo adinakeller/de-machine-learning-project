@@ -1,24 +1,18 @@
 from datasets import load_dataset
-import csv
+import pandas as pd
 import logging
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
     
 
-def load_dataset(dataset, config):
+def load(dataset, config):
     logger.info('loading dataset...')
     ds = load_dataset(dataset, config)
-    train_data = ds['train']
-    return train_data
-
+    all_data = ds['train']
+    return all_data
 
 def save_to_csv(file_name, data):
-    with open(file_name, "w", encoding="utf-8") as file:
-        fieldnames = ['text', 'label']
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(data)
-
-    logger.info(f'saved clean data to {file_name}')
-    return file_name
+    df = pd.DataFrame(data)
+    df.to_csv(file_name, index=False)
+    return df
