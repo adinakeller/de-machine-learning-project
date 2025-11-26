@@ -11,12 +11,12 @@ logger.setLevel(logging.INFO)
 
 def load_csv(file_name):
     df = pd.read_csv(file_name)
+    return df
+
+def train_data(df):
     X = df['text']
     y = df['label']
-    return X, y
 
-
-def train_data(X, y):
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.33, random_state=42)
 
     vr = TfidfVectorizer()
@@ -36,6 +36,7 @@ def train_data(X, y):
 
 def save_trained_model(model, file_name):
     with open(file_name,'wb') as f:
-        pickle.dump(model, f)
+        trained_model = pickle.dump(model, f)
 
     logger.info(f'Model saved to {file_name}')
+    return trained_model
