@@ -16,17 +16,17 @@ def train_data(df):
     X = df['text']
     y = df['label']
 
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.33, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
     vr = TfidfVectorizer()
-    X_train = vr.fit_transform(X_train)
-    X_val = vr.transform(X_val)
+    X_train_vec = vr.fit_transform(X_train)
+    X_test_vec = vr.transform(X_test)
 
-    logreg = LogisticRegression(random_state=16)
-    logreg.fit(X_train, y_train)
-    y_pred = logreg.predict(X_val)
+    logreg = LogisticRegression()
+    logreg.fit(X_train_vec, y_train)
+    y_pred = logreg.predict(X_test_vec)
 
-    return y_pred, y_val
+    return y_pred, y_test
 
 
 def save_trained_model(model, file_name):

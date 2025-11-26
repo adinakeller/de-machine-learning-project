@@ -8,18 +8,18 @@ logger.setLevel(logging.INFO)
 
 df = load_csv('cleaned.csv')
 
-y_pred, y_val = train_data(df)
+y_pred, y_test = train_data(df)
 
-cm = confusion_matrix(y_val, y_pred)
+cm = confusion_matrix(y_test, y_pred)
 logger.info(f'Confusion Matrix: {cm}')
 
 target_names = ['sadness', 'joy', 'love', 'anger', 'fear', 'surprise']
-cr = classification_report(y_val, y_pred, target_names=target_names)
+cr = classification_report(y_test, y_pred, target_names=target_names)
 logger.info(f'Classification Report: {cr}')
 
-accuracy = accuracy_score(y_val, y_pred)
-print(f'Accuracy: {accuracy:.3f}')
+# accuracy = accuracy_score(y_test, y_pred)
+# print(f'Accuracy: {accuracy:.3f}')
 
-with open("accuracy.json", "w") as f:
-    json.dump({"accuracy": accuracy}, f)
+# with open("accuracy.json", "w") as f:
+#     json.dump({"accuracy": accuracy}, f)
 
