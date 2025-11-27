@@ -2,14 +2,10 @@
 Using Emotion Dataset
 
 # Set Up
-1. Install dependencies in requirements.txt
-
-# Tasks
-- Choose a real-world dataset from a curated list
-- Ingest and store that data reliably, using a local script which will form the basis for an AWS Lambda with RDS
-- Train a model on that data to understand or generate insights
-- Create a chatbot interface that uses your trained model
-- Add RAG (Retrieval-Augmented Generation) functionality using simple local files
+1. Create a virtual environment 
+2. Activate your venv
+3. Install dependencies in requirements.txt
+4. Run main_chatbot.py file in chatbot folder
 
 # Citation Information 
 @inproceedings{saravia-etal-2018-carer,
