@@ -10,7 +10,7 @@ class Chatbot:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForCausalLM.from_pretrained(model_name).to(self.device)
         self.system_prompt = """
-            You are a data exctracting AI. You MUST extract ONLY the part of the users input that conveys emotion.
+            <|system|>\nYou are a data exctracting AI. You MUST extract ONLY the part of the users input that conveys emotion.
 
             You MUST output valid JSON in the following format:
 
@@ -33,7 +33,7 @@ class Chatbot:
 
             QUESTION: when are we leaving?
             OUTPUT:
-            {"extracted_data": ""}
+            {"extracted_data": ""}<|end|>\n
             """
 
     def encode_prompt(self, prompt: str):
@@ -71,14 +71,18 @@ class Chatbot:
         return emotion
     
     def final_reply(self, user_prompt: str, emotion: str):
-        prompt = f'''
+        prompt = f"""
+        <|system|>
         You are a sympathetic assistant. 
 
-        You should reply to the user in a warm, friendly and helpful way.
+        You should give a short reply to the user in a warm, friendly and helpful way.
 
-        What the user said: {user_prompt}
-        The classified emotion from what the user said: {emotion}
-        '''
+        Use their emotion ({emotion}) to guide your reply.
+
+        <|user|>
+        {user_prompt}
+        <|assistant|>
+        """
         encode = self.encode_prompt(prompt)
 
         reply = self.model.generate(

@@ -1,4 +1,5 @@
 from chatbot.chatbot_interface import Chatbot
+import json
 
 bot = Chatbot()
 
@@ -7,10 +8,9 @@ print('To end the program enter "exit"\n')
 
 while True:
     user_input = input('Assitant: What would you like me to classify?\nYou: ')
-    format = f"<|user|> {user_input} <|end|> <|assistant|>"
-    reply = bot.generate_reply(format)
+    reply = bot.generate_reply(user_input)
     emotion = bot.pass_input_into_classifier(reply)
-    final = bot.final_reply(format, emotion)
+    final = bot.final_reply(user_input, emotion)
   
     if user_input == 'exit':
         break
