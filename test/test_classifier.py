@@ -27,3 +27,14 @@ def test_loads_vectorizer_model(tmp_path):
     result = c.load_vectorizer(file)
 
     assert isinstance(result, TfidfVectorizer)
+
+def test_returns_correct_emotion():
+    emotions = {
+            0: 'sadness',
+            1: 'joy',
+            2: 'love'
+        }
+    c = EmotionClassifier()
+    result = c.convert_to_emotion(0)
+    
+    assert result == 'sadness'
