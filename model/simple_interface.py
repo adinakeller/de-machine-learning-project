@@ -9,9 +9,10 @@ print('To end the program enter "exit"\n')
 
 while True:
     user_input = input('Enter a sentence: ')
-    reply = c.classify_emotion([user_input])
+    pred = c.classify_emotion([user_input])
 
     if user_input == 'exit':
         break
     else:
-        print(f'Emotion: {reply[0]}')
+        reply = c.convert_to_emotion(pred[0])
+        print(f'Emotion: {reply}\n')
