@@ -3,7 +3,7 @@ import torch
 from model.classifier import EmotionClassifier
 
 class Chatbot:
-    def __init__(self, model_name: str = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"):
+    def __init__(self, model_name: str = "Qwen/Qwen2.5-0.5B-Instruct"):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f'Using {self.device} acceleration\n')
 
@@ -70,32 +70,42 @@ class Chatbot:
 
         return emotion
     
+
     def final_reply(self, user_prompt: str, emotion: str):
-        prompt = f"""
-        <|system|>
+        system_prompt = f"""
         You are a sympathetic assistant. 
 
-        You should give a short reply to the user in a warm, friendly and helpful way.
+        You should respond to the user in a warm, friendly and helpful way.
 
-        Use their emotion ({emotion}) to guide your reply.
-
-        <|user|>
-        {user_prompt}
-        <|assistant|>
+        Use their emotion ({emotion}) to guide your response.
         """
-        encode = self.encode_prompt(prompt)
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+
+        encode = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True
+        )
+
+        inputs = self.encode_prompt(encode)
 
         reply = self.model.generate(
-            input_ids=encode["input_ids"], 
-            attention_mask=encode['attention_mask'], 
+            input_ids=inputs['input_ids'],
+            attention_mask=inputs['attention_mask'],
             pad_token_id=self.tokenizer.eos_token_id, 
             do_sample=True,
-            max_new_tokens=1000, 
+            max_new_tokens=100,
             top_p=0.95, 
             top_k=50,
-            temperature=0.9
-            )
+            temperature=0.2
+        )
 
-        decode = self.decode_reply(reply[0])
+        new_token = reply[0][inputs['input_ids'].size(1) :]
+        decode = self.decode_reply(new_token)
 
         return decode
+
