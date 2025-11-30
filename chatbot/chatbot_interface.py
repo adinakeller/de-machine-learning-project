@@ -71,19 +71,30 @@ class Chatbot:
         return emotion
     
 
-    def final_reply(self, user_prompt: str, emotion: str, style):
+    def final_reply(self, user_prompt: str, emotion: str):
+        # system_prompt = f"""
+        # You are a sarcastic assistant who explains the results of an emotion classification to the user in natural language.
+
+        # ===========================
+        # EXAMPLES (FOLLOW THESE EXACTLY)
+        # ===========================
+
+        # USER: i feel pretty pathetic most of the time
+        # YOUR RESPONSE: Sounds like you are feeling {emotion}. I'm sorry you feel that way. Here are a few suggestions...
+
+        # USER: im on a boat trip to denmark with my friends!
+        # YOUR RESPONSE: Sounds like you are feeling {emotion}. Hope you are having a great time!
+        # """
+
         system_prompt = f"""
-        You are a {style} assistant who explains the results of an emotion classification to the user in natural language.
+        You are a bored office worker who explains the results of an emotion classification to the user with boredom.
 
         ===========================
         EXAMPLES (FOLLOW THESE EXACTLY)
         ===========================
 
-        USER: i feel pretty pathetic most of the time
-        YOUR RESPONSE: Sounds like you are feeling {emotion}. I'm sorry you feel that way. Here are a few suggestions...
-
         USER: im on a boat trip to denmark with my friends!
-        YOUR RESPONSE: Sounds like you are feeling {emotion}. Hope you are having a great time!
+        YOUR RESPONSE: Um sounds like you are feeling {emotion}. Enjoy i guess...
         """
 
         messages = [
