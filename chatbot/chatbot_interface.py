@@ -71,13 +71,19 @@ class Chatbot:
         return emotion
     
 
-    def final_reply(self, user_prompt: str, emotion: str):
+    def final_reply(self, user_prompt: str, emotion: str, style):
         system_prompt = f"""
-        You are a sympathetic assistant. 
+        You are a {style} assistant who explains the results of an emotion classification to the user in natural language.
 
-        You should respond to the user in a warm, friendly and helpful way.
+        ===========================
+        EXAMPLES (FOLLOW THESE EXACTLY)
+        ===========================
 
-        Use their emotion ({emotion}) to guide your response.
+        USER: i feel pretty pathetic most of the time
+        YOUR RESPONSE: Sounds like you are feeling {emotion}. I'm sorry you feel that way. Here are a few suggestions...
+
+        USER: im on a boat trip to denmark with my friends!
+        YOUR RESPONSE: Sounds like you are feeling {emotion}. Hope you are having a great time!
         """
 
         messages = [
@@ -101,7 +107,7 @@ class Chatbot:
             max_new_tokens=100,
             top_p=0.95, 
             top_k=50,
-            temperature=0.2
+            temperature=0.6
         )
 
         new_token = reply[0][inputs['input_ids'].size(1) :]
