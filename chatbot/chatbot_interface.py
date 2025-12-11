@@ -44,7 +44,7 @@ class Chatbot:
     
     def generate_reply(self, prompt: str) -> str:
 
-        encode = self.encode_prompt(prompt + '\n' + self.system_prompt)
+        encode = self.encode_prompt(prompt + '\n')
 
         reply = self.model.generate(
             input_ids=encode["input_ids"], 
@@ -69,32 +69,22 @@ class Chatbot:
         emotion = c.convert_to_emotion(pred[0])
 
         return emotion
-    
 
-    def final_reply(self, user_prompt: str, emotion: str):
-        # system_prompt = f"""
-        # You are a sarcastic assistant who explains the results of an emotion classification to the user in natural language.
-
-        # ===========================
-        # EXAMPLES (FOLLOW THESE EXACTLY)
-        # ===========================
-
-        # USER: i feel pretty pathetic most of the time
-        # YOUR RESPONSE: Sounds like you are feeling {emotion}. I'm sorry you feel that way. Here are a few suggestions...
-
-        # USER: im on a boat trip to denmark with my friends!
-        # YOUR RESPONSE: Sounds like you are feeling {emotion}. Hope you are having a great time!
-        # """
-
+    def final_reply(self, style: str, user_prompt: str, emotion: str):
         system_prompt = f"""
-        You are a bored office worker who explains the results of an emotion classification to the user with boredom.
+        You are a {style} assistant who explains the results of an emotion classification to the user in natural language.
 
         ===========================
         EXAMPLES (FOLLOW THESE EXACTLY)
         ===========================
 
+        STYLE: pirate
+        USER: i feel pretty pathetic most of the time
+        YOUR RESPONSE: Arrr, sounds like ye be feelin' {emotion}, matey. That be a rough sea to sail. Here be a few bits of wisdom to help steady yer ship…
+        
+        STYLE: overly enthusiastic
         USER: im on a boat trip to denmark with my friends!
-        YOUR RESPONSE: Um sounds like you are feeling {emotion}. Enjoy i guess...
+        YOUR RESPONSE: Sounds like you are feeling {emotion}!! THAT SOUNDS AMAZING!!! I hope you're having the BEST time ever!!!
         """
 
         messages = [
@@ -115,10 +105,10 @@ class Chatbot:
             attention_mask=inputs['attention_mask'],
             pad_token_id=self.tokenizer.eos_token_id, 
             do_sample=True,
-            max_new_tokens=100,
+            max_new_tokens=1500,
             top_p=0.95, 
             top_k=50,
-            temperature=0.6
+            temperature=0.7
         )
 
         new_token = reply[0][inputs['input_ids'].size(1) :]
