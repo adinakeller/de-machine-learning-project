@@ -1,11 +1,29 @@
-# Machine Learning Project - Natural Language Classifier
-Using Emotion Dataset
+# Emotion-Based Chatbot
 
-# Set Up
-1. Create a virtual environment 
-2. Activate your venv
+This project is a machine learning-powered chatbot that analyses the emotion of a user’s input and responds with sympathetic messages or/and guidance based on the detected emotion and the style.
+
+Features:
+
+Emotion Classifier – Labels the input sentence with one of six emotions: sadness, joy, fear, anger, love, surprise.
+Pre-trained Language Model – Generates a response tailored to the detected emotion.
+
+
+# Installation
+
+1. Clone the repository 
+    `git clone <repo link>`
+    `cd <repo folder>`
+2. Set up and activate your virtual environment
+    `python -m venv venv`
+    `source venv/bin/activate`
 3. Install dependencies in requirements.txt
-4. Run main_chatbot.py file in chatbot folder
+    `pip install -r requirements.txt`
+
+# Usage
+
+Run `python main_chatbot.py` in the `chatbot` folder.
+Enter your input and get a response.
+
 
 # Citation Information 
 @inproceedings{saravia-etal-2018-carer,
