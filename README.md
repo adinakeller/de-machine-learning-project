@@ -21,7 +21,7 @@ Pre-trained Language Model – Generates a response tailored to the detected emo
 
 # Usage
 
-Run `python main_chatbot.py` in the `chatbot` folder.
+Run `python main.py`.
 Enter your input and get a response.
 
 
